@@ -53,5 +53,20 @@ namespace AddEntityToDocument
             return ent;
         }
 
+        public static Entity[] GetEntitysByObjectIds(this ObjectId[] ids)
+        {
+            Entity[] ents = new Entity[ids.Length];
+            Database db = HostApplicationServices.WorkingDatabase;
+            using (Transaction trans = db.TransactionManager.StartTransaction())
+            {
+                for(int i=0;i<ids.Length;i++)
+                {
+                    ents[i] = ids[i].GetObject(OpenMode.ForWrite) as Entity;
+                }
+                trans.Commit();
+            }
+            return ents;
+        }
+
     }
 }
