@@ -41,5 +41,17 @@ namespace AddEntityToDocument
             }
         }
 
+        public static Entity GetEntityByObjectId(this ObjectId id)
+        {
+            Entity ent = null;
+            Database db = HostApplicationServices.WorkingDatabase;
+            using (Transaction trans = db.TransactionManager.StartTransaction())
+            {
+                ent = id.GetObject(OpenMode.ForRead) as Entity;
+                trans.Commit();
+            }
+            return ent;
+        }
+
     }
 }
